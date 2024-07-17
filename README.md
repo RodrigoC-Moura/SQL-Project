@@ -5,10 +5,27 @@
 - [Project Overview](#project-overview)
 - [Database](#database)
   - [Creating the Schema](#creating-the-schema)
-  - [Tables](#tables)
+- [Tables](#tables)
+    - [Categorias](#categorias)
+    - [Clientes](#clientes)
+    - [Fabricantes](#fabricantes)
+    - [Posicao](#posicao)
+    - [Funcionarios](#funcionarios)
+    - [Pedidos](#pedidos)
+    - [Produtos](#produtos)
+    - [ItensPedido](#itenspedido)
+    - [ProdutoCategoria](#produtocategoria)
+    - [ProdutoMarca](#produtomarca)
 - [Queries](#queries)
-- [Triggers](#triggers)
 - [Stored Procedures](#stored-procedures)
+  - [AtualizarCliente](#atualizarcliente)
+  - [RegistrarItensPedido](#registraritenspedido)
+  - [RegistrarPedido](#registrarpedido)
+  - [RelatorioProdutosVendidos](#relatorioprodutosvendidos)
+  - [TotalPedidosPeriodo](#totalpedidosperiodo)
+- [Triggers](#triggers)
+  - [AtualizarStock](#atualizarstock)
+  - [VerificarStoque](#verificarstoque)
 - [Cursors](#cursors)
 - [Usage Examples](#usage-examples)
 
@@ -24,7 +41,45 @@ Replace this with your SQL schema creation code.
 
 ### Tables
 
-Replace each table section with your SQL table creation code.
+#### Categorias
+
+Description of the Categorias table.
+
+#### Clientes
+
+Description of the Clientes table.
+
+#### Fabricantes
+
+Description of the Fabricantes table.
+
+#### Posicao
+
+Description of the Posicao table.
+
+#### Funcionarios
+
+Description of the Funcionarios table.
+
+#### Pedidos
+
+Description of the Pedidos table.
+
+#### Produtos
+
+Description of the Produtos table.
+
+#### ItensPedido
+
+Description of the ItensPedido table.
+
+#### ProdutoCategoria
+
+Description of the ProdutoCategoria table.
+
+#### ProdutoMarca
+
+Description of the ProdutoMarca table.
 
 ## Queries
 
@@ -32,11 +87,18 @@ Replace this with your SQL queries or examples.
 
 ## Triggers
 
-Replace this with your SQL triggers.
+### AtualizarStock
+### VerificarStoque
+
 
 ## Stored Procedures
 
-Replace this with your SQL stored procedures.
+### AtualizarCliente
+### RegistrarItensPedido
+### RegistrarPedido
+### RelatorioProdutosVendidos
+### TotalPedidosPeriodo
+
 
 ## Cursors
 
