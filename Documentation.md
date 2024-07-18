@@ -43,7 +43,7 @@ This project involves creating and managing a database schema for a store (`Loja
 
 #### Prerequisites
 - MySQL Workbench installed on your machine.
-- Database export file (LojaP/db/db.sql).
+- Database export file (LojaP/db/DataImport/db.sql).
 
 #### Step 1: Open MySQL Workbench
 - Launch MySQL Workbench on your machine.
