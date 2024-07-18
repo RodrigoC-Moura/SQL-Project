@@ -54,7 +54,7 @@ This project involves creating and managing a database schema for a store (`Loja
 
 #### Step 3: Create a New Database (Schema)
 - In the left sidebar, right-click on the "Schemas" tab and select `Create Schema`.
-- Enter the name for the new database (e.g., `new_database_name`).
+- Enter the name for the new database.
 - Click `Apply`, then `Apply` again in the confirmation dialog, and `Finish`.
 
 #### Step 4: Import the SQL File
