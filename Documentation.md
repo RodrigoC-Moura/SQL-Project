@@ -324,7 +324,96 @@ The `SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Estoque insuficiente do produto
 
 ## Cursors
 
-Replace this with your SQL cursors if applicable.
+This stored procedure generates a report of products sold within a specified date range.
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE RelatorioProdutosVendidos(
+    IN data_inicio DATE,
+    IN data_fim DATE
+)
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE produto_id INT;
+    DECLARE produto_nome VARCHAR(45);
+    DECLARE quantidade_vendida INT;
+
+    DECLARE cursor_produtos CURSOR FOR
+        SELECT p.ID, p.Nome, SUM(ip.Quantidade) AS QuantidadeVendida
+        FROM Produtos p
+        JOIN ItensPedido ip ON p.ID = ip.ProdutoID
+        JOIN Pedidos pdi ON ip.PedidoID = pdi.ID
+        WHERE pdi.DataPedido BETWEEN data_inicio AND data_fim
+        GROUP BY p.ID, p.Nome;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    CREATE TEMPORARY TABLE IF NOT EXISTS RelatorioTemp (
+        ProdutoID INT,
+        ProdutoNome VARCHAR(45),
+        QuantidadeVendida INT
+    );
+
+    OPEN cursor_produtos;
+
+    read_loop: LOOP
+        FETCH cursor_produtos INTO produto_id, produto_nome, quantidade_vendida;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        INSERT INTO RelatorioTemp (ProdutoID, ProdutoNome, QuantidadeVendida)
+        VALUES (produto_id, produto_nome, quantidade_vendida);
+    END LOOP;
+
+    CLOSE cursor_produtos;
+
+    SELECT * FROM RelatorioTemp;
+
+    DROP TEMPORARY TABLE IF EXISTS RelatorioTemp;
+END $$
+
+DELIMITER ;
+```
+
+#### Procedure Declaration:
+- **DELIMITER $$**: Sets a new delimiter for the procedure definition.
+- **CREATE PROCEDURE RelatorioProdutosVendidos(...)**: Defines a stored procedure named RelatorioProdutosVendidos with two input parameters (`data_inicio` and `data_fim` of type DATE).
+
+#### Variables Declaration:
+- **DECLARE done INT DEFAULT 0;**: Initializes a variable `done` to control loop termination.
+- **DECLARE produto_id INT;, DECLARE produto_nome VARCHAR(45);, DECLARE quantidade_vendida INT;**: Declares variables to store product ID, product name, and quantity sold.
+
+#### Cursor Declaration:
+- **DECLARE cursor_produtos CURSOR FOR ...**: Defines a cursor `cursor_produtos` that retrieves data from the `Produtos`, `ItensPedido`, and `Pedidos` tables, calculating the total quantity sold (`QuantidadeVendida`) within the specified date range.
+
+#### Handler Declaration:
+- **DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;**: Sets up a handler to set `done` to 1 when no more rows are found by the cursor.
+
+#### Temporary Table Creation:
+- **CREATE TEMPORARY TABLE IF NOT EXISTS RelatorioTemp (...);**: Creates a temporary table `RelatorioTemp` to store the results fetched by the cursor. Columns include `ProdutoID`, `ProdutoNome`, and `QuantidadeVendida`.
+
+### Cursor Operations:
+- **OPEN cursor_produtos;**: Opens the cursor to start fetching rows.
+- **read_loop: LOOP ... END LOOP;**: Defines a loop (`read_loop`) to fetch rows from the cursor until no more rows are found (`done` is set to 1).
+
+#### Data Fetching and Insertion:
+- **FETCH cursor_produtos INTO ...;**: Fetches the next row of data from the cursor into the declared variables.
+- **INSERT INTO RelatorioTemp ...;**: Inserts the fetched data (`produto_id`, `produto_nome`, `quantidade_vendida`) into the `RelatorioTemp` temporary table.
+
+#### Closing Cursor:
+- **CLOSE cursor_produtos;**: Closes the cursor after fetching all rows.
+
+#### Result Retrieval:
+- **SELECT * FROM RelatorioTemp;**: Selects all rows from the `RelatorioTemp` temporary table, displaying the report of products sold within the specified date range.
+
+#### Temporary Table Cleanup:
+- **DROP TEMPORARY TABLE IF EXISTS RelatorioTemp;**: Drops the temporary table `RelatorioTemp` to free up resources after the procedure completes.
+
+
+
+
+
 
 ## Usage Examples
 
