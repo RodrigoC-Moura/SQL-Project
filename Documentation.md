@@ -229,26 +229,88 @@ The `AFTER INSERT` specification means that the trigger will fire after a new ro
 
 The trigger will perform the following actions for each row inserted:
 
-#### 4.1 BEGIN...END Block
+##### 4.1 BEGIN...END Block
 
 Defines the actions to be taken when the trigger is executed.
 
-#### 4.2 UPDATE Produtos
+##### 4.2 UPDATE Produtos
 
 The `UPDATE Produtos` statement updates the `QuantidadeEmStock` column in the `Produtos` table.
 
-#### 4.3 SET QuantidadeEmStock
+##### 4.3 SET QuantidadeEmStock
 
 The statement `SET QuantidadeEmStock = QuantidadeEmStock - NEW.Quantidade` decreases the stock quantity by the amount of the new order.
 
-#### 4.4 WHERE Clause
+##### 4.4 WHERE Clause
 
 The `WHERE ID = NEW.ProdutoID` clause ensures that the update is applied to the correct product based on the `ProdutoID` from the new row in `ItensPedido`.
 
 
 
-
 ### VerificarStoque
+
+This trigger (`VerificarStoque`) ensures that before inserting new rows into the `ItensPedido` table, the system checks if there is sufficient stock available in the `Produtos` table for the requested quantity. If there isn't enough stock, it raises an error to prevent the insertion of the order, thereby maintaining data integrity and business rules.
+
+```sql
+DROP TRIGGER IF EXISTS `VerificarStoque`;
+
+DELIMITER //
+
+CREATE TRIGGER VerificarStoque
+BEFORE INSERT ON ItensPedido
+FOR EACH ROW
+BEGIN
+    DECLARE quantidadeEmStoque INT;
+
+    SELECT QuantidadeEmStock
+    INTO quantidadeEmStoque
+    FROM Produtos
+    WHERE ID = NEW.ProdutoID;
+
+    IF quantidadeEmStoque < NEW.Quantidade THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Estoque insuficiente do produto.';
+    END IF;
+END //
+
+DELIMITER ;
+```
+
+#### 1. Drop Existing Trigger
+
+The statement `DROP TRIGGER IF EXISTS 'VerificarStoque'` ensures that any existing trigger with the same name is removed before creating a new one. This prevents conflicts and ensures that the trigger definition is clean.
+
+#### 2. Create Trigger
+
+The `CREATE TRIGGER VerificarStoque` command defines a new trigger named `VerificarStoque`.
+
+#### 3. Trigger Timing
+
+The `BEFORE INSERT` specification means that the trigger will fire before a new row is inserted into the `ItensPedido` table. This allows us to check and enforce business rules before the data is inserted.
+
+#### 4. Trigger Action
+
+The trigger will perform the following actions for each row to be inserted:
+
+##### 4.1 BEGIN...END Block
+
+Defines the actions to be taken when the trigger is executed.
+
+##### 4.2 DECLARE quantidadeEmStoque INT
+
+The `DECLARE quantidadeEmStoque INT` statement declares a variable `quantidadeEmStoque` to store the current stock quantity.
+
+##### 4.3 SELECT QuantidadeEmStock INTO quantidadeEmStoque
+
+The `SELECT QuantidadeEmStock INTO quantidadeEmStoque` statement retrieves the current stock quantity (`QuantidadeEmStock`) from the `Produtos` table for the product identified by `NEW.ProdutoID`.
+
+##### 4.4 IF Statement
+
+The `IF quantidadeEmStoque < NEW.Quantidade THEN...END IF` statement checks if the current stock (`quantidadeEmStoque`) is less than the quantity (`NEW.Quantidade`) of the new order being inserted.
+
+##### 4.5 SIGNAL Statement
+
+The `SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Estoque insuficiente do produto.'` statement raises an error with a custom message if there is insufficient stock to fulfill the new order. This prevents the insertion of the new order and notifies the user about the issue.
 
 
 ## Stored Procedures
