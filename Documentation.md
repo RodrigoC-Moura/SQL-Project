@@ -31,11 +31,11 @@
   - [AtualizarStock](#atualizarstock)
   - [VerificarStoque](#verificarstoque)
 - [Cursors](#cursors)
-- [Usage Examples](#usage-examples)
+
 
 ## Project Overview
 
-This project involves creating and managing a database schema for a store (`Loja`). The schema includes tables for categories, customers, manufacturers, positions, employees, orders, products, order items, and product categories and brands. Additionally, the project includes stored procedures to register orders, register order items, calculate total orders within a period, and generate a report listing all products sold and their quantities within a specified period using cursors.
+This project aims to use the basics of SQL (Structured Query Language) and its applications in managing and querying relational databases. 
 
 ## Database
 
@@ -652,11 +652,3 @@ DELIMITER ;
 #### Temporary Table Cleanup:
 - **DROP TEMPORARY TABLE IF EXISTS RelatorioTemp;**: Drops the temporary table `RelatorioTemp` to free up resources after the procedure completes.
 
-
-
-
-
-
-## Usage Examples
-
-Replace this with examples of how to use your database or queries.
