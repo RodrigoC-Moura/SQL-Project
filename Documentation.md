@@ -39,7 +39,7 @@ This project involves creating and managing a database schema for a store (`Loja
 
 #### Prerequisites
 - MySQL Workbench installed on your machine.
-- Database export file (e.g., `export.sql`).
+- Database export file (LojaP/db/db.sql).
 
 #### Step 1: Open MySQL Workbench
 - Launch MySQL Workbench on your machine.
@@ -63,7 +63,7 @@ This project involves creating and managing a database schema for a store (`Loja
   - Select `Import from Self-Contained File`.
   - Click `...` and navigate to your `export.sql` file.
   - Select the file and click `Open`.
-- Under "Default Target Schema", select the newly created database (e.g., `new_database_name`).
+- Under "Default Target Schema", select the newly created database.
 - Ensure `Dump Structure and Data` is selected.
 - Click `Start Import`.
 
