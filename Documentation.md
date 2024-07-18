@@ -393,7 +393,7 @@ DELIMITER ;
 #### Temporary Table Creation:
 - **CREATE TEMPORARY TABLE IF NOT EXISTS RelatorioTemp (...);**: Creates a temporary table `RelatorioTemp` to store the results fetched by the cursor. Columns include `ProdutoID`, `ProdutoNome`, and `QuantidadeVendida`.
 
-### Cursor Operations:
+#### Cursor Operations:
 - **OPEN cursor_produtos;**: Opens the cursor to start fetching rows.
 - **read_loop: LOOP ... END LOOP;**: Defines a loop (`read_loop`) to fetch rows from the cursor until no more rows are found (`done` is set to 1).
 
