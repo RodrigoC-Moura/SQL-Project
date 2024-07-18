@@ -316,10 +316,165 @@ The `SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Estoque insuficiente do produto
 ## Stored Procedures
 
 ### AtualizarCliente
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE `AtualizarCliente`(
+    IN `cliente_id` INT,
+    IN `novo_nome` VARCHAR(45),
+    IN `novo_email` VARCHAR(45),
+    IN `novo_telefone` INT
+)
+BEGIN
+    -- Update Clientes table
+    UPDATE Clientes
+    SET Nome = novo_nome,
+        Email = novo_email,
+        Telefone = novo_telefone
+    WHERE ID = cliente_id;
+
+    -- Optionally, you can return a message indicating success or any other information
+    SELECT CONCAT('Cliente ', cliente_id, ' atualizado com sucesso.') AS Resultado;
+END$$
+
+DELIMITER ;
+```
+
+## Explanation:
+
+### Purpose:
+The `AtualizarCliente` stored procedure updates client (Clientes) information in the database.
+
+### Parameters:
+- **cliente_id**: ID of the client whose information is being updated.
+- **novo_nome**: New name to be set for the client.
+- **novo_email**: New email address to be set for the client.
+- **novo_telefone**: New phone number to be set for the client.
+
+### Actions:
+- Updates the `Clientes` table where the ID matches `cliente_id`, setting the new values for `Nome`, `Email`, and `Telefone`.
+- Optionally, returns a message (`Resultado`) indicating the success of the update operation.
+
+
 ### RegistrarItensPedido
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE `RegistrarItensPedido`(
+    IN `pedido_id` INT,
+    IN `produto_id` INT,
+    IN `quantidade` INT,
+    IN `preco` INT
+)
+BEGIN
+    -- Insert into ItensPedido table
+    INSERT INTO ItensPedido (PedidoID, ProdutoID, Quantidade, Preco)
+    VALUES (pedido_id, produto_id, quantidade, preco);
+END$$
+
+DELIMITER ;
+```
+
+## Explanation:
+
+### Purpose:
+The `RegistrarItensPedido` stored procedure registers items (ItensPedido) for a specific order (Pedido).
+
+### Parameters:
+- **pedido_id**: ID of the order to which the items are being registered.
+- **produto_id**: ID of the product being registered in the order.
+- **quantidade**: Quantity of the product being registered.
+- **preco**: Price per unit of the product.
+
+### Actions:
+- Inserts a new row into the `ItensPedido` table with the provided details, linking the items to the corresponding order (`Pedido`).
+
+
 ### RegistrarPedido
-### RelatorioProdutosVendidos
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE `RegistrarPedido`(
+    IN `cliente_id` INT,
+    IN `funcionario_id` INT,
+    IN `data_pedido` DATE,
+    IN `total_pedido` INT
+)
+BEGIN
+    DECLARE pedido_id INT;
+
+    -- Insert into Pedidos table
+    INSERT INTO Pedidos (ClienteID, FuncionarioID, DataPedido, TotalPedido)
+    VALUES (cliente_id, funcionario_id, data_pedido, total_pedido);
+
+    -- Get the last inserted ID
+    SET pedido_id = LAST_INSERT_ID();
+
+    -- Return the pedido_id or any other information if needed
+    SELECT pedido_id AS PedidoID;
+END$$
+
+DELIMITER ;
+```
+
+## Explanation:
+
+### Purpose:
+The `RegistrarPedido` stored procedure registers a new order (Pedido) in the database.
+
+### Parameters:
+- **cliente_id**: ID of the customer placing the order.
+- **funcionario_id**: ID of the employee processing the order.
+- **data_pedido**: Date when the order is placed.
+- **total_pedido**: Total amount of the order.
+
+### Actions:
+- Inserts a new row into the `Pedidos` table with the provided details.
+- Retrieves the last inserted ID using `LAST_INSERT_ID()` and stores it in `pedido_id`.
+- Returns the `pedido_id` as the output, which can be useful for further operations or confirming the successful insertion of the order.
+
+
 ### TotalPedidosPeriodo
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE `TotalPedidosPeriodo`(
+    IN `data_inicio` DATE,
+    IN `data_fim` DATE,
+    OUT `total_pedidos` INT
+)
+BEGIN
+    -- Declare a variable to hold the total count
+    DECLARE total INT;
+
+    -- Calculate the total number of orders within the specified period
+    SELECT COUNT(*) INTO total
+    FROM Pedidos
+    WHERE DataPedido BETWEEN data_inicio AND data_fim;
+
+    -- Set the output parameter
+    SET total_pedidos = total;
+END$$
+
+DELIMITER ;
+```
+
+## Explanation:
+
+### Purpose:
+The `TotalPedidosPeriodo` stored procedure calculates the total number of orders (Pedidos) placed within a specified date range.
+
+### Parameters:
+- **data_inicio**: Start date of the period for which orders are counted.
+- **data_fim**: End date of the period for which orders are counted.
+
+### Output Parameter:
+- **total_pedidos**: Output parameter that holds the total number of orders within the specified period.
+
+### Actions:
+- Declares a variable `total` to store the calculated count of orders.
+- Performs a `SELECT COUNT(*)` query on the `Pedidos` table to count the number of orders where `DataPedido` is between `data_inicio` and `data_fim`.
+- Assigns the calculated `total` to `total_pedidos` using `SET`.
 
 
 ## Cursors
