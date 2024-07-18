@@ -188,7 +188,90 @@ This project involves creating and managing a database schema for a store (`Loja
 
 ## Queries
 
-Replace this with your SQL queries or examples.
+### q1
+
+```sql
+SELECT Produtos.Nome AS NomeProduto, Produtos.Preco, Categorias.Nome AS Categoria
+FROM Produtos
+JOIN ProdutoCategoria ON Produtos.ID = ProdutoCategoria.Produtos_ID
+JOIN Categorias ON ProdutoCategoria.Categorias_ID = Categorias.ID
+WHERE Produtos.QuantidadeEmStock > 0;
+```
+
+## Explanation:
+
+### Purpose:
+The purpose of this query is to retrieve all available products along with their categories and prices.
+
+### Joins:
+- It uses `JOIN` operations to connect the following tables based on their respective IDs:
+  - `Produtos`: Contains information about products.
+  - `ProdutoCategoria`: Provides the mapping between products and categories.
+  - `Categorias`: Stores category details.
+
+### Filter:
+- `WHERE Produtos.QuantidadeEmStock > 0`: This filter ensures that only products with stock greater than 0 are included in the results.
+
+
+### q2
+
+```sql
+SELECT *
+FROM Pedidos
+WHERE DataPedido BETWEEN '2024-06-12' AND '2024-06-14';
+```
+
+## Explanation:
+
+### Purpose:
+The purpose of this query is to retrieve all orders placed within a specific date range ('2024-06-12' to '2024-06-14').
+
+### Filter:
+- `WHERE DataPedido BETWEEN '2024-06-12' AND '2024-06-14'`: This filter ensures that only orders made within the specified period are included in the results.
+
+
+### q3
+
+```sql
+SELECT ClienteID, COUNT(*) AS NumeroDePedidos
+FROM Pedidos
+GROUP BY ClienteID
+HAVING COUNT(*) > 2;
+```
+
+## Explanation:
+
+### Purpose:
+The purpose of this query is to list clients who have placed more than a specified number of orders (> 2 in this case).
+
+### Grouping:
+- `GROUP BY ClienteID`: This clause groups the orders by ClienteID, allowing us to aggregate and count the number of orders per client.
+
+### Having Clause:
+- `HAVING COUNT(*) > 2`: The `HAVING` clause filters the grouped results to include only those clients who have more than 2 orders. It applies the condition after grouping and aggregation.
+
+
+### q4
+
+```sql
+SELECT Produtos.*
+FROM Produtos
+JOIN ProdutoCategoria ON Produtos.ID = ProdutoCategoria.Produtos_ID
+JOIN Categorias ON ProdutoCategoria.Categorias_ID = Categorias.ID
+WHERE Categorias.Nome = 'Desporto';
+```
+
+## Explanation:
+
+### Purpose:
+The purpose of this query is to retrieve all products that belong to a specific category ('Desporto' in this case).
+
+### Joins:
+- It uses joins (`JOIN`) to connect the `Produtos`, `ProdutoCategoria`, and `Categorias` tables based on their respective IDs. This allows fetching products linked to the category through the `ProdutoCategoria` table.
+
+### Filter:
+- `WHERE Categorias.Nome = 'Desporto'`: This filter condition restricts the results to include only products that are categorized under 'Desporto'. It ensures that products from other categories are excluded from the result set.
+
 
 ## Triggers
 
