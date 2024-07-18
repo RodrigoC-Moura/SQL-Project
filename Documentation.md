@@ -43,43 +43,114 @@ Replace this with your SQL schema creation code.
 
 #### Categorias
 
-Description of the Categorias table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `Nome` (VARCHAR(45), NOT NULL): Name of the category.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
 
 #### Clientes
 
-Description of the Clientes table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `Nome` (VARCHAR(45), NOT NULL): Name of the client.
+  - `Email` (VARCHAR(45), NOT NULL): Email of the client.
+  - `Telefone` (INT, NOT NULL): Phone number of the client.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
 
 #### Fabricantes
 
-Description of the Fabricantes table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `Nome` (VARCHAR(45), NOT NULL): Name of the manufacturer.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
 
 #### Posicao
 
-Description of the Posicao table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `Nome` (VARCHAR(45), NOT NULL): Name of the position.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
 
 #### Funcionarios
 
-Description of the Funcionarios table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `Nome` (VARCHAR(45), NOT NULL): Name of the employee.
+  - `PosicaoID` (INT, NOT NULL): Position ID of the employee.
+  - `Salario` (INT, NOT NULL): Salary of the employee.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
+  - `INDEX` (`PosicaoID`)
+- **Foreign Keys**:
+  - `FOREIGN KEY` (`PosicaoID`) REFERENCES `Posicao`(`ID`)
 
 #### Pedidos
 
-Description of the Pedidos table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `ClienteID` (INT, NOT NULL): Client ID related to the order.
+  - `FuncionarioID` (INT, NOT NULL): Employee ID who handled the order.
+  - `DataPedido` (DATE, NOT NULL): Date of the order.
+  - `TotalPedido` (INT, NOT NULL): Total amount of the order.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
+  - `INDEX` (`ClienteID`)
+  - `INDEX` (`FuncionarioID`)
+- **Foreign Keys**:
+  - `FOREIGN KEY` (`ClienteID`) REFERENCES `Clientes`(`ID`)
+  - `FOREIGN KEY` (`FuncionarioID`) REFERENCES `Funcionarios`(`ID`)
 
 #### Produtos
 
-Description of the Produtos table.
+- **Columns**:
+  - `ID` (INT, NOT NULL, AUTO_INCREMENT): Primary key.
+  - `Nome` (VARCHAR(45), NOT NULL): Name of the product.
+  - `Preco` (INT, NOT NULL): Price of the product.
+  - `QuantidadeEmStock` (INT, NOT NULL): Quantity in stock.
+- **Indexes**:
+  - `PRIMARY KEY` (`ID`)
 
 #### ItensPedido
 
-Description of the ItensPedido table.
+- **Columns**:
+  - `PedidoID` (INT, NOT NULL): Order ID.
+  - `ProdutoID` (INT, NOT NULL): Product ID.
+  - `Quantidade` (INT, NOT NULL): Quantity of the product.
+  - `Preco` (INT, NOT NULL): Price of the product.
+- **Indexes**:
+  - `PRIMARY KEY` (`PedidoID`, `ProdutoID`)
+  - `INDEX` (`ProdutoID`)
+- **Foreign Keys**:
+  - `FOREIGN KEY` (`PedidoID`) REFERENCES `Pedidos`(`ID`)
+  - `FOREIGN KEY` (`ProdutoID`) REFERENCES `Produtos`(`ID`)
 
 #### ProdutoCategoria
 
-Description of the ProdutoCategoria table.
+- **Columns**:
+  - `Produtos_ID` (INT, NOT NULL): Product ID.
+  - `Categorias_ID` (INT, NOT NULL): Category ID.
+- **Indexes**:
+  - `PRIMARY KEY` (`Produtos_ID`, `Categorias_ID`)
+  - `INDEX` (`Categorias_ID`)
+- **Foreign Keys**:
+  - `FOREIGN KEY` (`Categorias_ID`) REFERENCES `Categorias`(`ID`)
+  - `FOREIGN KEY` (`Produtos_ID`) REFERENCES `Produtos`(`ID`)
 
 #### ProdutoMarca
 
-Description of the ProdutoMarca table.
+- **Columns**:
+  - `Produtos_ID` (INT, NOT NULL): Product ID.
+  - `Fabricantes_ID` (INT, NOT NULL): Manufacturer ID.
+- **Indexes**:
+  - `PRIMARY KEY` (`Produtos_ID`, `Fabricantes_ID`)
+  - `INDEX` (`Fabricantes_ID`)
+- **Foreign Keys**:
+  - `FOREIGN KEY` (`Fabricantes_ID`) REFERENCES `Fabricantes`(`ID`)
+  - `FOREIGN KEY` (`Produtos_ID`) REFERENCES `Produtos`(`ID`)
 
 ## Queries
 
