@@ -193,6 +193,61 @@ Replace this with your SQL queries or examples.
 ## Triggers
 
 ### AtualizarStock
+
+This trigger helps in maintaining the correct stock quantities by automatically updating the stock levels in the `Produtos` table whenever a new order item is inserted into the `ItensPedido` table.
+
+```sql
+DROP TRIGGER IF EXISTS `AtualizarStock`;
+
+DELIMITER //
+
+CREATE TRIGGER AtualizarStock
+AFTER INSERT ON ItensPedido
+FOR EACH ROW
+BEGIN
+    UPDATE Produtos
+    SET QuantidadeEmStock = QuantidadeEmStock - NEW.Quantidade
+    WHERE ID = NEW.ProdutoID;
+END //
+
+DELIMITER ;
+```
+
+#### 1. Drop Existing Trigger
+
+The statement `DROP TRIGGER IF EXISTS 'AtualizarStock'` ensures that any existing trigger with the same name is removed before creating a new one. This prevents errors that would occur if a trigger with the same name already exists.
+
+#### 2. Create Trigger
+
+The `CREATE TRIGGER AtualizarStock` command defines a new trigger named `AtualizarStock`.
+
+#### 3. Trigger Timing
+
+The `AFTER INSERT` specification means that the trigger will fire after a new row is inserted into the `ItensPedido` table.
+
+#### 4. Trigger Action
+
+The trigger will perform the following actions for each row inserted:
+
+#### 4.1 BEGIN...END Block
+
+Defines the actions to be taken when the trigger is executed.
+
+#### 4.2 UPDATE Produtos
+
+The `UPDATE Produtos` statement updates the `QuantidadeEmStock` column in the `Produtos` table.
+
+#### 4.3 SET QuantidadeEmStock
+
+The statement `SET QuantidadeEmStock = QuantidadeEmStock - NEW.Quantidade` decreases the stock quantity by the amount of the new order.
+
+#### 4.4 WHERE Clause
+
+The `WHERE ID = NEW.ProdutoID` clause ensures that the update is applied to the correct product based on the `ProdutoID` from the new row in `ItensPedido`.
+
+
+
+
 ### VerificarStoque
 
 
