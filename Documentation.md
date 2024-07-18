@@ -17,6 +17,10 @@
     - [ProdutoCategoria](#produtocategoria)
     - [ProdutoMarca](#produtomarca)
 - [Queries](#queries)
+    - [Q1](#Q1)
+    - [Q2](#Q2)
+    - [Q3](#Q3)
+    - [Q4](#Q4)
 - [Stored Procedures](#stored-procedures)
   - [AtualizarCliente](#atualizarcliente)
   - [RegistrarItensPedido](#registraritenspedido)
@@ -188,7 +192,7 @@ This project involves creating and managing a database schema for a store (`Loja
 
 ## Queries
 
-### q1
+### Q1
 
 ```sql
 SELECT Produtos.Nome AS NomeProduto, Produtos.Preco, Categorias.Nome AS Categoria
@@ -213,7 +217,7 @@ The purpose of this query is to retrieve all available products along with their
 - `WHERE Produtos.QuantidadeEmStock > 0`: This filter ensures that only products with stock greater than 0 are included in the results.
 
 
-### q2
+### Q2
 
 ```sql
 SELECT *
@@ -230,7 +234,7 @@ The purpose of this query is to retrieve all orders placed within a specific dat
 - `WHERE DataPedido BETWEEN '2024-06-12' AND '2024-06-14'`: This filter ensures that only orders made within the specified period are included in the results.
 
 
-### q3
+### Q3
 
 ```sql
 SELECT ClienteID, COUNT(*) AS NumeroDePedidos
@@ -251,7 +255,7 @@ The purpose of this query is to list clients who have placed more than a specifi
 - `HAVING COUNT(*) > 2`: The `HAVING` clause filters the grouped results to include only those clients who have more than 2 orders. It applies the condition after grouping and aggregation.
 
 
-### q4
+### Q4
 
 ```sql
 SELECT Produtos.*
