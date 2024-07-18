@@ -37,9 +37,43 @@ This project involves creating and managing a database schema for a store (`Loja
 
 ### Creating the Schema
 
-Replace this with your SQL schema creation code.
+#### Prerequisites
+- MySQL Workbench installed on your machine.
+- Database export file (e.g., `export.sql`).
 
-### Tables
+#### Step 1: Open MySQL Workbench
+- Launch MySQL Workbench on your machine.
+
+#### Step 2: Connect to the MySQL Server
+- **Create a new connection** (if not already set up):
+  - Click on the `+` icon next to "MySQL Connections".
+  - Enter the connection details (hostname, port, username, password).
+  - Click `Test Connection` to verify the connection.
+  - Click `OK` to save the connection.
+- Select the connection and double-click to connect.
+
+#### Step 3: Create a New Database (Schema)
+- In the left sidebar, right-click on the "Schemas" tab and select `Create Schema`.
+- Enter the name for the new database (e.g., `new_database_name`).
+- Click `Apply`, then `Apply` again in the confirmation dialog, and `Finish`.
+
+#### Step 4: Import the SQL File
+- From the menu, select `Server` > `Data Import`.
+- In the "Data Import" screen:
+  - Select `Import from Self-Contained File`.
+  - Click `...` and navigate to your `export.sql` file.
+  - Select the file and click `Open`.
+- Under "Default Target Schema", select the newly created database (e.g., `new_database_name`).
+- Ensure `Dump Structure and Data` is selected.
+- Click `Start Import`.
+
+#### Step 5: Verify the Import
+- After the import completes, refresh the schemas:
+  - Right-click on the "Schemas" tab and select `Refresh All`.
+- Expand the newly created database to see the imported tables.
+- Verify that the tables and data have been correctly imported.
+
+## Tables
 
 #### Categorias
 
