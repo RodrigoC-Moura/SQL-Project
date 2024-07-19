@@ -1,23 +1,23 @@
--- listar todos os produtos disponiveis com categorias e preços
+-- listar todos os produtos disponiveis com categorias e preços = Q1
 
 select Produtos.Nome as NomeProduto,Produtos.Preco,Categorias.Nome as Categoria from Produtos,Categorias,ProdutoCategoria
 where QuantidadeEmStock > 0
 and Produtos.ID =ProdutoCategoria.Produtos_ID
 and Categorias.ID=ProdutoCategoria.Categorias_ID;
 
--- listar pedidos realizados num determinado período
+-- listar pedidos realizados num determinado período = Q2
 
 SELECT * FROM Pedidos
 WHERE DataPedido BETWEEN '2024-06-12' AND '2024-06-14';
 
--- listar os clientes que realizaram mais de um determinado numero de pedidos
+-- listar os clientes que realizaram mais de um determinado numero de pedidos = Q3
 
 SELECT ClienteID, COUNT(*) AS NumeroDePedidos
 FROM Pedidos
 GROUP BY ClienteID
 HAVING COUNT(*) > 2;
 
--- listar produtos de uma determinada categoria
+-- listar produtos de uma determinada categoria = Q4
 
 SELECT *
 FROM Produtos
